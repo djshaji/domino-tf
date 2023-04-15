@@ -7,11 +7,13 @@ from PIL import ImageDraw
 from PIL import ImageFont
 from PIL import ImageOps
 import time
+import util
 
 class ObjectDetect:
-    module_handle = "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1" #@param ["https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1", "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"]
-    print (f'loading model {module_handle}')
+    module_handle = "models/inception/" #@param ["https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1", "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"]
+    print (f'loading model {module_handle} [{util.timestamp ()}]')
     detector = hub.load(module_handle).signatures['default']
+    print (f'model loaded [[{util.timestamp ()}]')
     
     def load_img(self, path):
       img = tf.io.read_file(path)
@@ -24,6 +26,7 @@ class ObjectDetect:
 
         converted_img  = tf.image.convert_image_dtype(img, tf.float32)[tf.newaxis, ...]
         start_time = time.time()
+        print (f'detecting [{start_time}] ...')
         result = detector(converted_img)
         end_time = time.time()
 
@@ -101,7 +104,7 @@ class ObjectDetect:
                                              int(100 * scores[i]))
               color = colors[hash(class_names[i]) % len(colors)]
               image_pil = Image.fromarray(np.uint8(image)).convert("RGB")
-              draw_bounding_box_on_image(
+              self.draw_bounding_box_on_image(
                   image_pil,
                   ymin,
                   xmin,
