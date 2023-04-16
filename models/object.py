@@ -10,7 +10,7 @@ import time
 import util
 
 class ObjectDetect:
-    module_handle = "models/inception/" #@param ["https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1", "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"]
+    module_handle = "models/compiled/inception/" #@param ["https://tfhub.dev/google/openimages_v4/ssd/mobilenet_v2/1", "https://tfhub.dev/google/faster_rcnn/openimages_v4/inception_resnet_v2/1"]
     print (f'loading model {module_handle} [{util.timestamp ()}]')
     detector = hub.load(module_handle).signatures['default']
     print (f'model loaded [[{util.timestamp ()}]')
