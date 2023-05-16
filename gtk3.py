@@ -39,7 +39,7 @@ class Gtk3 (UI):
             
         
     def hotkeys (self, widget, event):
-        print (f'{event.keyval}')
+        #print (f'{event.keyval}')
         if event.keyval == 65293:
             text = widget.get_text ()
             if "#" in text:
@@ -79,6 +79,7 @@ class Gtk3 (UI):
         return filename
 
     def pillow_to_pixbuf (self, image):
+        #print (type (image))
         contents = None
         with io.BytesIO() as output:
             image.save(output, format="JPEG")
@@ -91,3 +92,4 @@ class Gtk3 (UI):
     def set_image (self, img):
         pixbuf = self.pillow_to_pixbuf (img)
         self.img.set_from_pixbuf (pixbuf)
+        Gtk.main_iteration_do (False)
